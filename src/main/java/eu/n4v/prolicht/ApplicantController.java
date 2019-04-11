@@ -75,8 +75,7 @@ class ApplicantController {
             applicant.setAccount_id(newApplicant.getAccount_id());
             return repository.save(applicant);
         }).orElseGet(() -> {
-            newApplicant.setId(id);
-            // newApplicant.setAccount_id();
+            // newApplicant.setId(id);
             return repository.save(newApplicant);
         });
         Resource<Applicant> resource = assembler.toResource(updatedApplicant);
