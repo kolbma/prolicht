@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import eu.n4v.prolicht.model.CategoryView;
 import eu.n4v.prolicht.model.HobbyCategory;
 import eu.n4v.prolicht.model.HobbyCategoryRepository;
 import io.swagger.annotations.ApiOperation;
@@ -35,8 +36,8 @@ class HobbyCategoryController {
     }
 
     @GetMapping("/hobbycategories")
-    Resources<Resource<HobbyCategory>> all() {
-        List<Resource<HobbyCategory>> categories = repository.findAll().stream()
+    Resources<Resource<CategoryView>> all() {
+        List<Resource<CategoryView>> categories = repository.findAll().stream()
                 .map(assembler::toResource).collect(Collectors.toList());
         return new Resources<>(categories,
                 linkTo(methodOn(HobbyCategoryController.class).all()).withSelfRel());
@@ -47,12 +48,12 @@ class HobbyCategoryController {
             authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> newHobbyCategory(@RequestBody HobbyCategory newCategory)
             throws URISyntaxException {
-        Resource<HobbyCategory> resource = assembler.toResource(repository.save(newCategory));
+        Resource<CategoryView> resource = assembler.toResource(repository.save(newCategory));
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
     @GetMapping("/hobbycategories/{id}")
-    Resource<HobbyCategory> one(@PathVariable Long id) {
+    Resource<CategoryView> one(@PathVariable Long id) {
         HobbyCategory category =
                 repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(category);
@@ -70,7 +71,7 @@ class HobbyCategoryController {
             newCategory.setId(id);
             return repository.save(newCategory);
         });
-        Resource<HobbyCategory> resource = assembler.toResource(updatedCategory);
+        Resource<CategoryView> resource = assembler.toResource(updatedCategory);
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 

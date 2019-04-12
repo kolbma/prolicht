@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(indexes = {@Index(columnList = "name")})
 @NamedQuery(name = "HobbyCategory.findAll", query = "select h from HobbyCategory h order by h.name")
-public class HobbyCategory {
+public class HobbyCategory implements ICategory {
 
     @Id
     @GeneratedValue
