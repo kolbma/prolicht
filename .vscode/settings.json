@@ -1,0 +1,19 @@
+{
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "java.test.config": [
+        {
+            "name": "prolicht",
+            "env": {
+                "prolichtuser": "user",
+                "prolichtpassword": "123456"
+            },
+            "workingDirectory": "${workspaceFolder}"
+        }
+    ],
+    "java.test.defaultConfig": "prolicht"
+}
