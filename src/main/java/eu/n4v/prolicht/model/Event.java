@@ -1,11 +1,8 @@
 package eu.n4v.prolicht.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.Optional;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -25,6 +22,8 @@ import javax.persistence.Transient;
 import eu.n4v.prolicht.ApplicationContextProviderConfig;
 import eu.n4v.prolicht.DateResolution;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity

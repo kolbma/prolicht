@@ -1,8 +1,5 @@
 package eu.n4v.prolicht.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import java.util.Date;
 import java.util.Optional;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -17,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import eu.n4v.prolicht.ApplicationContextProviderConfig;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
