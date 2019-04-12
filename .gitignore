@@ -26,5 +26,3 @@ prolicht.*.db
 /.nb-gradle/
 /build/
 
-### VS Code ###
-.vscode/
