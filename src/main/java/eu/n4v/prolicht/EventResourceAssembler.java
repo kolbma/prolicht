@@ -16,6 +16,6 @@ class EventResourceAssembler implements ResourceAssembler<Event, Resource<Event>
         return new Resource<>(event,
                 linkTo(methodOn(EventController.class).one(event.getCategoryId(), event.getId()))
                         .withSelfRel(),
-                linkTo(methodOn(EventController.class).all()).withRel("event"));
+                linkTo(methodOn(EventController.class).all()).withRel("events"));
     }
 }

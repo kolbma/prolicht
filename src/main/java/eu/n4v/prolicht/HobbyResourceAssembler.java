@@ -16,6 +16,6 @@ class HobbyResourceAssembler implements ResourceAssembler<Hobby, Resource<Hobby>
         return new Resource<>(hobby,
                 linkTo(methodOn(HobbyController.class).one(hobby.getCategoryId(), hobby.getId()))
                         .withSelfRel(),
-                linkTo(methodOn(HobbyController.class).all()).withRel("hobby"));
+                linkTo(methodOn(HobbyController.class).all()).withRel("hobbies"));
     }
 }

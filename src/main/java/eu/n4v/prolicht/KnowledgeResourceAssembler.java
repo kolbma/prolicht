@@ -16,6 +16,6 @@ class KnowledgeResourceAssembler implements ResourceAssembler<Knowledge, Resourc
         return new Resource<>(knowledge,
                 linkTo(methodOn(KnowledgeController.class).one(knowledge.getCategoryId(),
                         knowledge.getId())).withSelfRel(),
-                linkTo(methodOn(KnowledgeController.class).all()).withRel("knowledge"));
+                linkTo(methodOn(KnowledgeController.class).all()).withRel("knowledges"));
     }
 }
