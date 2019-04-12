@@ -34,6 +34,10 @@ public class Photo {
     @Lob
     private byte[] data;
 
+    private String mediaType;
+
+    private String filename;
+
     @PrePersist
     @PreUpdate
     private void preCallback() throws Exception {
