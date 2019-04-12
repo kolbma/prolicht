@@ -31,10 +31,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/account/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/applicant").authenticated()
                 .antMatchers(HttpMethod.GET, "/applicant/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/", "/csrf", "/h2-console/**", "/swagger-ui.html",
-                        "/webjars/springfox-swagger-ui/**", "/swagger-resources/**", "/v2/api-docs",
-                        "/event/**", "/eventcategories/**", "/hobby/**", "/hobbycategories/**",
-                        "/knowledge/**", "/knowledgecategories/**", "/photo/**")
+                .antMatchers(HttpMethod.GET, "/", "/csrf", "/h2-console/**", "/index.html",
+                        "/swagger-ui.html", "/webjars/springfox-swagger-ui/**",
+                        "/swagger-resources/**", "/v2/api-docs", "/event/**", "/eventcategories/**",
+                        "/hobby/**", "/hobbycategories/**", "/knowledge/**",
+                        "/knowledgecategories/**", "/photo/**")
                 .permitAll().anyRequest().authenticated().and().httpBasic().and().csrf().disable()
                 .headers().frameOptions().disable();
     }
@@ -46,7 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             log.error("Missing environment variables for PROLICHTUSER and/or PROLICHTPASSWORD");
             return super.userDetailsService();
         }
-        UserBuilder users = User.withDefaultPasswordEncoder(); // TODO: DefaultPasswordEncoder for demo OK
+        UserBuilder users = User.withDefaultPasswordEncoder(); // TODO: DefaultPasswordEncoder for
+                                                               // demo OK
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(users.username(username).password(password).roles("USER").build());
         return manager;
