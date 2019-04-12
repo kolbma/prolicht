@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import eu.n4v.prolicht.model.KnowledgeCategory;
 import eu.n4v.prolicht.model.KnowledgeCategoryRepository;
+import eu.n4v.prolicht.model.SequenceCategoryView;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 
@@ -35,8 +36,8 @@ class KnowledgeCategoryController {
     }
 
     @GetMapping("/knowledgecategories")
-    Resources<Resource<KnowledgeCategory>> all() {
-        List<Resource<KnowledgeCategory>> categories = repository.findAll().stream()
+    Resources<Resource<SequenceCategoryView>> all() {
+        List<Resource<SequenceCategoryView>> categories = repository.findAll().stream()
                 .map(assembler::toResource).collect(Collectors.toList());
         return new Resources<>(categories,
                 linkTo(methodOn(KnowledgeCategoryController.class).all()).withSelfRel());
@@ -47,12 +48,13 @@ class KnowledgeCategoryController {
             authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> newKnowledgeCategory(@RequestBody KnowledgeCategory newCategory)
             throws URISyntaxException {
-        Resource<KnowledgeCategory> resource = assembler.toResource(repository.save(newCategory));
+        Resource<SequenceCategoryView> resource =
+                assembler.toResource(repository.save(newCategory));
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
     @GetMapping("/knowledgecategories/{id}")
-    Resource<KnowledgeCategory> one(@PathVariable Long id) {
+    Resource<SequenceCategoryView> one(@PathVariable Long id) {
         KnowledgeCategory category =
                 repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(category);
@@ -71,7 +73,7 @@ class KnowledgeCategoryController {
             newCategory.setId(id);
             return repository.save(newCategory);
         });
-        Resource<KnowledgeCategory> resource = assembler.toResource(updatedCategory);
+        Resource<SequenceCategoryView> resource = assembler.toResource(updatedCategory);
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 

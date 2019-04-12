@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Table(indexes = {@Index(columnList = "sequence")})
 @NamedQuery(name = "KnowledgeCategory.findAll",
         query = "select k from KnowledgeCategory k order by k.sequence desc")
-public class KnowledgeCategory implements Identifiable<Long> {
+public class KnowledgeCategory implements Identifiable<Long>, ISequenceCategory {
 
     @Id
     @GeneratedValue
