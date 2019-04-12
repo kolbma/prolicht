@@ -72,10 +72,9 @@ class ApplicantController {
             applicant.setPhone(newApplicant.getPhone());
             applicant.setPostcode(newApplicant.getPostcode());
             applicant.setStreet(newApplicant.getStreet());
-            applicant.setAccount_id(newApplicant.getAccount_id());
             return repository.save(applicant);
         }).orElseGet(() -> {
-            // newApplicant.setId(id);
+            newApplicant.setId(id);
             return repository.save(newApplicant);
         });
         Resource<Applicant> resource = assembler.toResource(updatedApplicant);
