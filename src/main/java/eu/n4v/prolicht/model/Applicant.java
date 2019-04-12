@@ -13,11 +13,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import eu.n4v.prolicht.ApplicationContextProviderConfig;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -26,11 +23,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
-public class Applicant {
-
-    @Autowired
-    @Transient
-    private UserDetailsService userDetailsService;
+public class Applicant implements IApplicant {
 
     @Id
     @GeneratedValue

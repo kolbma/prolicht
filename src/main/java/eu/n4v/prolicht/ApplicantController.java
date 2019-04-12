@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import eu.n4v.prolicht.model.Applicant;
 import eu.n4v.prolicht.model.ApplicantRepository;
+import eu.n4v.prolicht.model.ApplicantView;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 
@@ -35,8 +36,8 @@ class ApplicantController {
 
     @GetMapping("/applicant")
     @ApiOperation(value = "all", authorizations = {@Authorization(value = "basicAuth")})
-    Resources<Resource<Applicant>> all() {
-        List<Resource<Applicant>> applicant = repository.findAll().stream()
+    Resources<Resource<ApplicantView>> all() {
+        List<Resource<ApplicantView>> applicant = repository.findAll().stream()
                 .map(assembler::toResource).collect(Collectors.toList());
         return new Resources<>(applicant,
                 linkTo(methodOn(ApplicantController.class).all()).withSelfRel());
@@ -45,12 +46,12 @@ class ApplicantController {
     @PostMapping("/applicant")
     @ApiOperation(value = "newApplicant", authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> newApplicant(@RequestBody Applicant newApplicant) throws URISyntaxException {
-        Resource<Applicant> resource = assembler.toResource(repository.save(newApplicant));
+        Resource<ApplicantView> resource = assembler.toResource(repository.save(newApplicant));
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
     @GetMapping("/applicant/{id}")
-    Resource<Applicant> one(@PathVariable Long id) {
+    Resource<ApplicantView> one(@PathVariable Long id) {
         Applicant applicant =
                 repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(applicant);
@@ -77,7 +78,7 @@ class ApplicantController {
             newApplicant.setId(id);
             return repository.save(newApplicant);
         });
-        Resource<Applicant> resource = assembler.toResource(updatedApplicant);
+        Resource<ApplicantView> resource = assembler.toResource(updatedApplicant);
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
