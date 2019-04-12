@@ -6,6 +6,8 @@ Zum Start der WebApplikation (in aktueller Fassung) müssen die Umgebungsvariabl
 
 ## Datenmodell
 
+![](out/README/README.svg)
+
 ```plantuml
 @startuml
 skinparam handwritten true
@@ -14,7 +16,6 @@ skinparam handwritten true
 
 table(Account) {
     id: INT <PK>
-    applicant_id: INT <FK>
     username: VARCHAR
     password: VARCHAR
     createdat: TIMESTAMP
@@ -24,10 +25,6 @@ table(Account) {
 table(Applicant) {
     id: INT <PK> <FK>
     account_id: INT <FK>
-    eventcategory_id: INT <FK>
-    hobbycategory_id: INT <FK>
-    knowledgecategory_id: INT <FK>
-    photo_id: INT <FK>
     firstname: VARCHAR
     lastname: VARCHAR
     street: VARCHAR
@@ -43,7 +40,7 @@ table(Applicant) {
 
 table(Knowledge) {
     id: INT <PK> <FK>
-    knowledgecategory_id: INT <FK>
+    knowledge_category_id: INT <FK>
     name: VARCHAR
     sequence: INT
 }
@@ -57,7 +54,7 @@ table(KnowledgeCategory) {
 
 table(Event) {
     id: INT <PK> <FK>
-    eventcategory_id: INT <FK>
+    event_category_id: INT <FK>
     startdate: DATE
     enddate: DATE
     dateresolution: ENUM('YEAR', 'MONTH', 'DAY')
@@ -74,7 +71,7 @@ table(EventCategory) {
 
 table(Hobby) {
     id: INT <PK>
-    hobbycategory_id: INT <FK>
+    hobby_category_id: INT <FK>
     name: VARCHAR
 }
 
@@ -88,6 +85,8 @@ table(Photo) {
     id: INT <PK>
     applicant_id: INT <FK>
     data: BLOB
+    mediaType: VARCHAR
+    filename: VARCHAR
 }
 
 Account "1" -- "1" Applicant
