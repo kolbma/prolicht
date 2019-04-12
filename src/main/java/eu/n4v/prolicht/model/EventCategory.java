@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @Table(indexes = {@Index(columnList = "sequence")})
 @NamedQuery(name = "EventCategory.findAll",
         query = "select e from EventCategory e order by e.sequence desc")
-public class EventCategory {
+public class EventCategory implements IEventCategory {
 
     @Id
     @GeneratedValue

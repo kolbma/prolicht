@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import eu.n4v.prolicht.model.EventCategory;
 import eu.n4v.prolicht.model.EventCategoryRepository;
+import eu.n4v.prolicht.model.EventCategoryView;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 
@@ -35,8 +36,8 @@ class EventCategoryController {
     }
 
     @GetMapping("/eventcategories")
-    Resources<Resource<EventCategory>> all() {
-        List<Resource<EventCategory>> categories = repository.findAll().stream()
+    Resources<Resource<EventCategoryView>> all() {
+        List<Resource<EventCategoryView>> categories = repository.findAll().stream()
                 .map(assembler::toResource).collect(Collectors.toList());
         return new Resources<>(categories,
                 linkTo(methodOn(EventCategoryController.class).all()).withSelfRel());
@@ -47,12 +48,12 @@ class EventCategoryController {
             authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> newEventCategory(@RequestBody EventCategory newCategory)
             throws URISyntaxException {
-        Resource<EventCategory> resource = assembler.toResource(repository.save(newCategory));
+        Resource<EventCategoryView> resource = assembler.toResource(repository.save(newCategory));
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
     @GetMapping("/eventcategories/{id}")
-    Resource<EventCategory> one(@PathVariable Long id) {
+    Resource<EventCategoryView> one(@PathVariable Long id) {
         EventCategory category =
                 repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(category);
@@ -70,7 +71,7 @@ class EventCategoryController {
             newCategory.setId(id);
             return repository.save(newCategory);
         });
-        Resource<EventCategory> resource = assembler.toResource(updatedCategory);
+        Resource<EventCategoryView> resource = assembler.toResource(updatedCategory);
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
