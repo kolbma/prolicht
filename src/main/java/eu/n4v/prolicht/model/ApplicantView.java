@@ -2,8 +2,10 @@ package eu.n4v.prolicht.model;
 
 import java.util.Date;
 import lombok.Data;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Data
+@ApiIgnore
 public class ApplicantView implements IApplicant {
     private Long id;
     private String firstname;

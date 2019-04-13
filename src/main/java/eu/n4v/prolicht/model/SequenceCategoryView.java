@@ -1,8 +1,10 @@
 package eu.n4v.prolicht.model;
 
 import lombok.Data;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Data
+@ApiIgnore
 public class SequenceCategoryView implements ISequenceCategory {
     private Long id;
     private String name;
