@@ -9,9 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.springframework.hateoas.Identifiable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +34,9 @@ public class KnowledgeCategory implements Identifiable<Long>, ISequenceCategory 
     @GeneratedValue
     @ApiModelProperty(readOnly = true, hidden = false)
     private Long id;
+
+    @Transient
+    private Long categoryId;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     @ApiModelProperty(readOnly = true, hidden = true)
@@ -64,4 +69,8 @@ public class KnowledgeCategory implements Identifiable<Long>, ISequenceCategory 
 
     }
 
+    @PostLoad
+    private void postLoadCallback() {
+        this.categoryId = this.id;
+    }
 }

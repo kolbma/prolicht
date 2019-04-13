@@ -1,9 +1,11 @@
 package eu.n4v.prolicht.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Data
+@NoArgsConstructor
 @ApiIgnore
 public class PhotoView {
     private Long id;

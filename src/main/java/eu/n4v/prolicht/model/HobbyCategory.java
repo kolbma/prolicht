@@ -9,9 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import eu.n4v.prolicht.ApplicationContextProviderConfig;
@@ -30,6 +32,9 @@ public class HobbyCategory implements ICategory {
     @GeneratedValue
     @ApiModelProperty(readOnly = true, hidden = false)
     private Long id;
+
+    @Transient
+    private Long categoryId;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     @ApiModelProperty(readOnly = true, hidden = true)
@@ -58,6 +63,10 @@ public class HobbyCategory implements ICategory {
                 throw new Exception("account not found");
             }
         }
+    }
 
+    @PostLoad
+    private void postLoadCallback() {
+        this.categoryId = this.id;
     }
 }

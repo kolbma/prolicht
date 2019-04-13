@@ -10,5 +10,5 @@ public interface HobbyRepository extends JpaRepository<Hobby, Long> {
     @Query
     public List<Hobby> findAll();
 
-    public List<Hobby> findByHobbyCategoryId(Long hobbyCategoryId);
+    public List<Hobby> findByHobbyCategoryId(long hobbyCategoryId);
 }
