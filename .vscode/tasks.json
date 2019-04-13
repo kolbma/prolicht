@@ -24,7 +24,13 @@
                         "endsPattern": "^.*Listening for transport dt_socket at address.*"
                     }
                 }
-            ]
+            ],
+            "options": {
+                "env": {
+                    "prolichtuser": "user",
+                    "prolichtpassword": "123456"
+                }
+            }
         }
     ]
 }
