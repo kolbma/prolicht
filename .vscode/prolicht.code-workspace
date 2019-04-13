@@ -1,12 +1,22 @@
 {
-	"folders": [
-		{
-			"path": "/home/makolb/Source/Repos/prolicht"
-		}
-	],
-	"settings": {
-		"java.format.settings.profile": "GoogleStyle",
-		"java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
-		"java.configuration.updateBuildConfiguration": "interactive"
-	}
+    "folders": [
+        {
+            "path": "/home/makolb/Source/Repos/prolicht"
+        }
+    ],
+    "settings": {
+        "java.format.settings.profile": "GoogleStyle",
+        "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+        "java.configuration.updateBuildConfiguration": "interactive",
+        "maven.terminal.customEnv": [
+            {
+                "environmentVariable": "PROLICHTUSER",
+                "value": "user"
+            },
+            {
+                "environmentVariable": "PROLICHTPASSWORD",
+                "value": "123456"
+            }
+        ]
+    }
 }

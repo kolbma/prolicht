@@ -15,5 +15,15 @@
             "workingDirectory": "${workspaceFolder}"
         }
     ],
-    "java.test.defaultConfig": "prolicht"
+    "java.test.defaultConfig": "prolicht",
+    "maven.terminal.customEnv": [
+        {
+            "environmentVariable": "PROLICHTUSER",
+            "value": "user"
+        },
+        {
+            "environmentVariable": "PROLICHTPASSWORD",
+            "value": "123456"
+        }
+    ]
 }
