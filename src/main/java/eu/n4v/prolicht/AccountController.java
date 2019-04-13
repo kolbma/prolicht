@@ -51,7 +51,7 @@ class AccountController {
     }
 
     @GetMapping(value = "/account/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
-    @ApiOperation(value = "newAccount", authorizations = {@Authorization(value = "basicAuth")})
+    @ApiOperation(value = "one", authorizations = {@Authorization(value = "basicAuth")})
     Resource<Account> one(@PathVariable Long id) {
         Account account = repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(account);
