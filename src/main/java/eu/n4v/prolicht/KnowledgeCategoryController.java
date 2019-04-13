@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ class KnowledgeCategoryController {
         this.assembler = assembler;
     }
 
-    @GetMapping("/knowledgecategories")
+    @GetMapping(value = "/knowledgecategories", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resources<Resource<SequenceCategoryView>> all() {
         List<Resource<SequenceCategoryView>> categories = repository.findAll().stream()
                 .map(assembler::toResource).collect(Collectors.toList());
@@ -43,7 +44,7 @@ class KnowledgeCategoryController {
                 linkTo(methodOn(KnowledgeCategoryController.class).all()).withSelfRel());
     }
 
-    @PostMapping("/knowledgecategories")
+    @PostMapping(value = "/knowledgecategories", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "newKnowledgeCategory",
             authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> newKnowledgeCategory(@RequestBody KnowledgeCategory newCategory)
@@ -53,14 +54,14 @@ class KnowledgeCategoryController {
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
-    @GetMapping("/knowledgecategories/{id}")
+    @GetMapping(value = "/knowledgecategories/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resource<SequenceCategoryView> one(@PathVariable Long id) {
         KnowledgeCategory category =
                 repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(category);
     }
 
-    @PutMapping("/knowledgecategories/{id}")
+    @PutMapping(value = "/knowledgecategories/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "replaceKnowledgeCategory",
             authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> replaceKnowledgeCategory(@RequestBody KnowledgeCategory newCategory,

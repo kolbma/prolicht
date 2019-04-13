@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ class HobbyCategoryController {
         this.assembler = assembler;
     }
 
-    @GetMapping("/hobbycategories")
+    @GetMapping(value = "/hobbycategories", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resources<Resource<CategoryView>> all() {
         List<Resource<CategoryView>> categories = repository.findAll().stream()
                 .map(assembler::toResource).collect(Collectors.toList());
@@ -43,7 +44,7 @@ class HobbyCategoryController {
                 linkTo(methodOn(HobbyCategoryController.class).all()).withSelfRel());
     }
 
-    @PostMapping("/hobbycategories")
+    @PostMapping(value = "/hobbycategories", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "newHobbyCategory",
             authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> newHobbyCategory(@RequestBody HobbyCategory newCategory)
@@ -52,14 +53,14 @@ class HobbyCategoryController {
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
-    @GetMapping("/hobbycategories/{id}")
+    @GetMapping(value = "/hobbycategories/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resource<CategoryView> one(@PathVariable Long id) {
         HobbyCategory category =
                 repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(category);
     }
 
-    @PutMapping("/hobbycategories/{id}")
+    @PutMapping(value = "/hobbycategories/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "replaceHobbyCategory",
             authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> replaceHobbyCategory(@RequestBody HobbyCategory newCategory,

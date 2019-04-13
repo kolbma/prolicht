@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ class ApplicantController {
         this.assembler = assembler;
     }
 
-    @GetMapping("/applicant")
+    @GetMapping(value = "/applicant", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "all", authorizations = {@Authorization(value = "basicAuth")})
     Resources<Resource<ApplicantView>> all() {
         List<Resource<ApplicantView>> applicant = repository.findAll().stream()
@@ -43,21 +44,21 @@ class ApplicantController {
                 linkTo(methodOn(ApplicantController.class).all()).withSelfRel());
     }
 
-    @PostMapping("/applicant")
+    @PostMapping(value = "/applicant", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "newApplicant", authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> newApplicant(@RequestBody Applicant newApplicant) throws URISyntaxException {
         Resource<ApplicantView> resource = assembler.toResource(repository.save(newApplicant));
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
-    @GetMapping("/applicant/{id}")
+    @GetMapping(value = "/applicant/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resource<ApplicantView> one(@PathVariable Long id) {
         Applicant applicant =
                 repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(applicant);
     }
 
-    @PutMapping("/applicant/{id}")
+    @PutMapping(value = "/applicant/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "replaceApplicant",
             authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> replaceApplicant(@RequestBody Applicant newApplicant, @PathVariable Long id)

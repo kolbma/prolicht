@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpHeaders;
@@ -37,7 +38,7 @@ class PhotoController {
         this.assembler = assembler;
     }
 
-    @GetMapping("/photo/{applicantId}")
+    @GetMapping(value = "/photo/{applicantId}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resources<Resource<PhotoView>> all(@PathVariable Long applicantId) {
         List<Resource<PhotoView>> photo = repository.findByApplicantId(applicantId).stream()
                 .map(assembler::toResource).collect(Collectors.toList());
@@ -78,7 +79,7 @@ class PhotoController {
                 .body(photo.getData());
     }
 
-    @PostMapping("/photo")
+    @PostMapping(value = "/photo", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "newPhoto", authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> newPhoto(@RequestParam("data") MultipartFile data) throws URISyntaxException {
         Photo newPhoto = new Photo();
@@ -96,7 +97,7 @@ class PhotoController {
         }
     }
 
-    @GetMapping("/photo/{applicantId}/{id}")
+    @GetMapping(value = "/photo/{applicantId}/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resource<PhotoView> one(@PathVariable Long applicantId, @PathVariable Long id) {
         Photo photo = repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(photo);

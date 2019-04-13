@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ class EventCategoryController {
         this.assembler = assembler;
     }
 
-    @GetMapping("/eventcategories")
+    @GetMapping(value = "/eventcategories", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resources<Resource<EventCategoryView>> all() {
         List<Resource<EventCategoryView>> categories = repository.findAll().stream()
                 .map(assembler::toResource).collect(Collectors.toList());
@@ -43,7 +44,7 @@ class EventCategoryController {
                 linkTo(methodOn(EventCategoryController.class).all()).withSelfRel());
     }
 
-    @PostMapping("/eventcategories")
+    @PostMapping(value = "/eventcategories", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "newEventCategory",
             authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> newEventCategory(@RequestBody EventCategory newCategory)
@@ -52,14 +53,14 @@ class EventCategoryController {
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
-    @GetMapping("/eventcategories/{id}")
+    @GetMapping(value = "/eventcategories/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resource<EventCategoryView> one(@PathVariable Long id) {
         EventCategory category =
                 repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(category);
     }
 
-    @PutMapping("/eventcategories/{id}")
+    @PutMapping(value = "/eventcategories/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "replaceEventCategory",
             authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> replaceEventCategory(@RequestBody EventCategory newCategory,

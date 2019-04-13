@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
@@ -32,14 +33,14 @@ class EventController {
         this.assembler = assembler;
     }
 
-    @GetMapping("/event")
+    @GetMapping(value = "/event", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resources<Resource<Event>> all() {
         List<Resource<Event>> event = repository.findAll().stream().map(assembler::toResource)
                 .collect(Collectors.toList());
         return new Resources<>(event, linkTo(methodOn(EventController.class).all()).withSelfRel());
     }
 
-    @GetMapping("/event/{categoryId}")
+    @GetMapping(value = "/event/{categoryId}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resources<Resource<Event>> allByCategory(@PathVariable Long categoryId) {
         List<Resource<Event>> event = repository.findByEventCategoryId(categoryId).stream()
                 .map(assembler::toResource).collect(Collectors.toList());
@@ -47,20 +48,20 @@ class EventController {
                 linkTo(methodOn(EventController.class).allByCategory(categoryId)).withSelfRel());
     }
 
-    @PostMapping("/event")
+    @PostMapping(value = "/event", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "newEvent", authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> newEvent(@RequestBody Event newEvent) throws URISyntaxException {
         Resource<Event> resource = assembler.toResource(repository.save(newEvent));
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
-    @GetMapping("/event/{categoryId}/{id}")
+    @GetMapping(value = "/event/{categoryId}/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resource<Event> one(@PathVariable Long categoryId, @PathVariable Long id) {
         Event event = repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(event);
     }
 
-    @PutMapping("/event/{id}")
+    @PutMapping(value = "/event/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "replaceEvent", authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> replaceEvent(@RequestBody Event newEvent, @PathVariable Long id)
             throws URISyntaxException {

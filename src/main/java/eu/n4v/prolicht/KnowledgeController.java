@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ class KnowledgeController {
         this.assembler = assembler;
     }
 
-    @GetMapping("/knowledge")
+    @GetMapping(value = "/knowledge", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resources<Resource<Knowledge>> all() {
         List<Resource<Knowledge>> knowledge = repository.findAll().stream()
                 .map(assembler::toResource).collect(Collectors.toList());
@@ -40,7 +41,7 @@ class KnowledgeController {
                 linkTo(methodOn(KnowledgeController.class).all()).withSelfRel());
     }
 
-    @GetMapping("/knowledge/{categoryId}")
+    @GetMapping(value = "/knowledge/{categoryId}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resources<Resource<Knowledge>> allByCategory(@PathVariable Long categoryId) {
         List<Resource<Knowledge>> knowledge = repository.findByKnowledgeCategoryId(categoryId)
                 .stream().map(assembler::toResource).collect(Collectors.toList());
@@ -49,21 +50,21 @@ class KnowledgeController {
                         .withSelfRel());
     }
 
-    @PostMapping("/knowledge")
+    @PostMapping(value = "/knowledge", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "newKnowledge", authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> newKnowledge(@RequestBody Knowledge newKnowledge) throws URISyntaxException {
         Resource<Knowledge> resource = assembler.toResource(repository.save(newKnowledge));
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
-    @GetMapping("/knowledge/{categoryId}/{id}")
+    @GetMapping(value = "/knowledge/{categoryId}/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resource<Knowledge> one(@PathVariable Long categoryId, @PathVariable Long id) {
         Knowledge knowledge =
                 repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(knowledge);
     }
 
-    @PutMapping("/knowledge/{id}")
+    @PutMapping(value = "/knowledge/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "replaceKnowledge",
             authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> replaceKnowledge(@RequestBody Knowledge newKnowledge, @PathVariable Long id)

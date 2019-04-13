@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ class AccountController {
         this.assembler = assembler;
     }
 
-    @GetMapping("/account")
+    @GetMapping(value = "/account", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "all", authorizations = {@Authorization(value = "basicAuth")})
     Resources<Resource<Account>> all() {
         List<Resource<Account>> accounts = repository.findAll().stream().map(assembler::toResource)
@@ -42,21 +43,21 @@ class AccountController {
                 linkTo(methodOn(AccountController.class).all()).withSelfRel());
     }
 
-    @PostMapping("/account")
+    @PostMapping(value = "/account", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "newAccount", authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> newAccount(@RequestBody Account newAccount) throws URISyntaxException {
         Resource<Account> resource = assembler.toResource(repository.save(newAccount));
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
-    @GetMapping("/account/{id}")
+    @GetMapping(value = "/account/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "newAccount", authorizations = {@Authorization(value = "basicAuth")})
     Resource<Account> one(@PathVariable Long id) {
         Account account = repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(account);
     }
 
-    @PutMapping("/account/{id}")
+    @PutMapping(value = "/account/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "replaceAccount", authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> replaceAccount(@RequestBody Account newAccount, @PathVariable Long id)
             throws URISyntaxException {

@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
@@ -32,14 +33,14 @@ class HobbyController {
         this.assembler = assembler;
     }
 
-    @GetMapping("/hobby")
+    @GetMapping(value = "/hobby", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resources<Resource<Hobby>> all() {
         List<Resource<Hobby>> hobby = repository.findAll().stream().map(assembler::toResource)
                 .collect(Collectors.toList());
         return new Resources<>(hobby, linkTo(methodOn(HobbyController.class).all()).withSelfRel());
     }
 
-    @GetMapping("/hobby/{categoryId}")
+    @GetMapping(value = "/hobby/{categoryId}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resources<Resource<Hobby>> allByCategory(@PathVariable Long categoryId) {
         List<Resource<Hobby>> hobby = repository.findByHobbyCategoryId(categoryId).stream()
                 .map(assembler::toResource).collect(Collectors.toList());
@@ -47,20 +48,20 @@ class HobbyController {
                 linkTo(methodOn(HobbyController.class).allByCategory(categoryId)).withSelfRel());
     }
 
-    @PostMapping("/hobby")
+    @PostMapping(value = "/hobby", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "newHobby", authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> newHobby(@RequestBody Hobby newHobby) throws URISyntaxException {
         Resource<Hobby> resource = assembler.toResource(repository.save(newHobby));
         return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
     }
 
-    @GetMapping("/hobby/{categoryId}/{id}")
+    @GetMapping(value = "/hobby/{categoryId}/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resource<Hobby> one(@PathVariable Long categoryId, @PathVariable Long id) {
         Hobby hobby = repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(hobby);
     }
 
-    @PutMapping("/hobby/{id}")
+    @PutMapping(value = "/hobby/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     @ApiOperation(value = "replaceHobby", authorizations = {@Authorization(value = "basicAuth")})
     ResponseEntity<?> replaceHobby(@RequestBody Hobby newHobby, @PathVariable Long id)
             throws URISyntaxException {
