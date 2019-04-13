@@ -2,6 +2,7 @@ HELP.md
 /target/
 .mvn/wrapper/maven-wrapper.jar
 prolichtdb.*.db
+/*.tgz
 
 ### STS ###
 .apt_generated
