@@ -25,4 +25,10 @@ public interface IApplicant {
 
     public String getDrivinglicense();
 
+    public String getTitle();
+
+    public String getIntro();
+
+    public String getContactInfo();
+
 }
