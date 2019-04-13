@@ -53,6 +53,12 @@ class ApplicantController {
 
     @GetMapping(value = "/applicant/{id}", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
     Resource<ApplicantView> one(@PathVariable Long id) {
+        if (id == 0) {
+            // handles a request for specifying no (0 for dummy) id
+            Applicant defaultApplicant = repository.findFirstByOrderByIdAsc()
+                    .orElseThrow(() -> new ResNotFoundException(0L));
+            return assembler.toResource(defaultApplicant);
+        }
         Applicant applicant =
                 repository.findById(id).orElseThrow(() -> new ResNotFoundException(id));
         return assembler.toResource(applicant);
@@ -67,13 +73,16 @@ class ApplicantController {
             applicant.setBirthdate(newApplicant.getBirthdate());
             applicant.setBirthplace(newApplicant.getBirthplace());
             applicant.setCity(newApplicant.getCity());
+            applicant.setContactInfo(newApplicant.getContactInfo());
             applicant.setDrivinglicense(newApplicant.getDrivinglicense());
             applicant.setEmail(newApplicant.getEmail());
             applicant.setFirstname(newApplicant.getFirstname());
+            applicant.setIntro(newApplicant.getIntro());
             applicant.setLastname(newApplicant.getLastname());
             applicant.setPhone(newApplicant.getPhone());
             applicant.setPostcode(newApplicant.getPostcode());
             applicant.setStreet(newApplicant.getStreet());
+            applicant.setTitle(newApplicant.getTitle());
             return repository.save(applicant);
         }).orElseGet(() -> {
             newApplicant.setId(id);

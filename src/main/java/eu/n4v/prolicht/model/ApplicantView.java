@@ -18,6 +18,9 @@ public class ApplicantView implements IApplicant {
     private Date birthdate;
     private String birthplace;
     private String drivinglicense;
+    private String title;
+    private String intro;
+    private String contactInfo;
 
     public ApplicantView(IApplicant applicant) {
         this.id = applicant.getId();
@@ -31,5 +34,8 @@ public class ApplicantView implements IApplicant {
         this.birthdate = applicant.getBirthdate();
         this.birthplace = applicant.getBirthplace();
         this.drivinglicense = applicant.getDrivinglicense();
+        this.title = applicant.getTitle();
+        this.intro = applicant.getIntro();
+        this.contactInfo = applicant.getContactInfo();
     }
 }

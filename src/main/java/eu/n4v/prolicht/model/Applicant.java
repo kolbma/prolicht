@@ -8,9 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.springframework.security.core.Authentication;
@@ -23,6 +25,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
+@Table(indexes = {@Index(columnList = "account_id")})
 public class Applicant implements IApplicant {
 
     @Id
@@ -44,6 +47,9 @@ public class Applicant implements IApplicant {
     private Date birthdate;
     private String birthplace;
     private String drivinglicense;
+    private String title;
+    private String intro;
+    private String contactInfo;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
