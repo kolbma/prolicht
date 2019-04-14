@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
@@ -16,6 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import eu.n4v.prolicht.EventCategoryName;
 import eu.n4v.prolicht.ResNotFoundException;
 import eu.n4v.prolicht.model.Applicant;
@@ -34,7 +36,7 @@ class IndexController {
 
     @GetMapping(value = {"/", "/index.html"}, produces = MediaType.TEXT_HTML_VALUE)
     public String getIndex(@RequestParam(value = "applicant", required = false) String applicantIdS,
-            @ModelAttribute("model") ModelMap model) {
+            @ModelAttribute("model") ModelMap model, HttpServletRequest request) {
 
         // applicant data
         long id = 0;
@@ -48,9 +50,17 @@ class IndexController {
         }
         final long applicantId = id;
 
-        try { // TODO: get real URI
-            Traverson traverson =
-                    new Traverson(new URI("http://localhost:8080/"), MediaTypes.HAL_JSON_UTF8);
+        final String reqUri =
+                ServletUriComponentsBuilder.fromRequest(request).replaceQuery(null).toUriString();
+        final String uri;
+        if (reqUri.endsWith("/index.html")) {
+            uri = reqUri.substring(0, reqUri.length() - 10);
+        } else {
+            uri = reqUri;
+        }
+
+        try {
+            Traverson traverson = new Traverson(new URI(uri), MediaTypes.HAL_JSON_UTF8);
             Applicant applicant = traverson.follow("applicant")
                     .withTemplateParameters(new HashMap<String, Object>() {
                         private static final long serialVersionUID = 1L;
@@ -69,8 +79,7 @@ class IndexController {
 
         // knowledges data
         try {
-            Traverson traverson =
-                    new Traverson(new URI("http://localhost:8080/"), MediaTypes.HAL_JSON_UTF8);
+            Traverson traverson = new Traverson(new URI(uri), MediaTypes.HAL_JSON_UTF8);
             Resources<Resource<CategoryView>> categories = traverson.follow("knowledgecategories")
                     .toObject(new ParameterizedTypeReference<Resources<Resource<CategoryView>>>() {
                     });
@@ -108,8 +117,7 @@ class IndexController {
 
         // job data
         try {
-            Traverson traverson =
-                    new Traverson(new URI("http://localhost:8080/"), MediaTypes.HAL_JSON_UTF8);
+            Traverson traverson = new Traverson(new URI(uri), MediaTypes.HAL_JSON_UTF8);
             Resources<Resource<EventCategoryView>> categories =
                     traverson.follow("eventcategories").toObject(
                             new ParameterizedTypeReference<Resources<Resource<EventCategoryView>>>() {
@@ -150,8 +158,7 @@ class IndexController {
 
         // education data
         try {
-            Traverson traverson =
-                    new Traverson(new URI("http://localhost:8080/"), MediaTypes.HAL_JSON_UTF8);
+            Traverson traverson = new Traverson(new URI(uri), MediaTypes.HAL_JSON_UTF8);
             Resources<Resource<EventCategoryView>> categories =
                     traverson.follow("eventcategories").toObject(
                             new ParameterizedTypeReference<Resources<Resource<EventCategoryView>>>() {
@@ -191,8 +198,7 @@ class IndexController {
 
         // hobbies data
         try {
-            Traverson traverson =
-                    new Traverson(new URI("http://localhost:8080/"), MediaTypes.HAL_JSON_UTF8);
+            Traverson traverson = new Traverson(new URI(uri), MediaTypes.HAL_JSON_UTF8);
             Resources<Resource<CategoryView>> categories = traverson.follow("hobbycategories")
                     .toObject(new ParameterizedTypeReference<Resources<Resource<CategoryView>>>() {
                     });
