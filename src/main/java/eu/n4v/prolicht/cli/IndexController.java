@@ -34,6 +34,8 @@ import springfox.documentation.annotations.ApiIgnore;
 @ApiIgnore
 class IndexController {
 
+    private static String serviceURI;
+
     @GetMapping(value = {"/", "/index.html"}, produces = MediaType.TEXT_HTML_VALUE)
     public String getIndex(@RequestParam(value = "applicant", required = false) String applicantIdS,
             @ModelAttribute("model") ModelMap model, HttpServletRequest request) {
@@ -50,17 +52,18 @@ class IndexController {
         }
         final long applicantId = id;
 
-        final String reqUri =
-                ServletUriComponentsBuilder.fromRequest(request).replaceQuery(null).toUriString();
-        final String uri;
-        if (reqUri.endsWith("/index.html")) {
-            uri = reqUri.substring(0, reqUri.length() - 10);
-        } else {
-            uri = reqUri;
+        if (serviceURI == null) { // need to get the serviceURI only once
+            final String reqUri = ServletUriComponentsBuilder.fromRequest(request)
+                    .replaceQuery(null).toUriString();
+            if (reqUri.endsWith("/index.html")) {
+                serviceURI = reqUri.substring(0, reqUri.length() - 10);
+            } else {
+                serviceURI = reqUri;
+            }
         }
 
         try {
-            Traverson traverson = new Traverson(new URI(uri), MediaTypes.HAL_JSON_UTF8);
+            Traverson traverson = new Traverson(new URI(serviceURI), MediaTypes.HAL_JSON_UTF8);
             Applicant applicant = traverson.follow("applicant")
                     .withTemplateParameters(new HashMap<String, Object>() {
                         private static final long serialVersionUID = 1L;
@@ -79,7 +82,7 @@ class IndexController {
 
         // knowledges data
         try {
-            Traverson traverson = new Traverson(new URI(uri), MediaTypes.HAL_JSON_UTF8);
+            Traverson traverson = new Traverson(new URI(serviceURI), MediaTypes.HAL_JSON_UTF8);
             Resources<Resource<CategoryView>> categories = traverson.follow("knowledgecategories")
                     .toObject(new ParameterizedTypeReference<Resources<Resource<CategoryView>>>() {
                     });
@@ -117,7 +120,7 @@ class IndexController {
 
         // job data
         try {
-            Traverson traverson = new Traverson(new URI(uri), MediaTypes.HAL_JSON_UTF8);
+            Traverson traverson = new Traverson(new URI(serviceURI), MediaTypes.HAL_JSON_UTF8);
             Resources<Resource<EventCategoryView>> categories =
                     traverson.follow("eventcategories").toObject(
                             new ParameterizedTypeReference<Resources<Resource<EventCategoryView>>>() {
@@ -158,7 +161,7 @@ class IndexController {
 
         // education data
         try {
-            Traverson traverson = new Traverson(new URI(uri), MediaTypes.HAL_JSON_UTF8);
+            Traverson traverson = new Traverson(new URI(serviceURI), MediaTypes.HAL_JSON_UTF8);
             Resources<Resource<EventCategoryView>> categories =
                     traverson.follow("eventcategories").toObject(
                             new ParameterizedTypeReference<Resources<Resource<EventCategoryView>>>() {
@@ -198,7 +201,7 @@ class IndexController {
 
         // hobbies data
         try {
-            Traverson traverson = new Traverson(new URI(uri), MediaTypes.HAL_JSON_UTF8);
+            Traverson traverson = new Traverson(new URI(serviceURI), MediaTypes.HAL_JSON_UTF8);
             Resources<Resource<CategoryView>> categories = traverson.follow("hobbycategories")
                     .toObject(new ParameterizedTypeReference<Resources<Resource<CategoryView>>>() {
                     });
