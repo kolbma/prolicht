@@ -31,6 +31,8 @@ import lombok.NoArgsConstructor;
 @Table(indexes = {@Index(columnList = "startdate,enddate")})
 @NamedQuery(name = "Event.findAll",
         query = "select e from Event e order by e.startdate desc, e.enddate desc")
+@NamedQuery(name = "Event.findByEventCategoryId",
+        query = "select e from Event e where e.eventCategory.id = ?1 order by e.startdate desc, e.enddate desc")
 public class Event {
 
     @Id

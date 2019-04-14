@@ -26,6 +26,8 @@ import io.swagger.annotations.ApiModelProperty;
 @Table(indexes = {@Index(columnList = "sequence")})
 @NamedQuery(name = "Knowledge.findAll",
         query = "select k from Knowledge k order by k.sequence desc")
+@NamedQuery(name = "Knowledge.findByKnowledgeCategoryId",
+        query = "select k from Knowledge k where k.knowledgeCategory.id = ?1 order by k.sequence desc")
 public class Knowledge implements Identifiable<Long> {
 
     @Id
