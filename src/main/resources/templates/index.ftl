@@ -92,8 +92,8 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="person_img">
-                                <img src="/photo/download/3" alt="">
-                                <a class="download_btn" href="/photo/download/4"><span>Download Lebenslauf</span></a>
+                                <img src="./photo/download/3" alt="">
+                                <a class="download_btn" href="./photo/download/4"><span>Download Lebenslauf</span></a>
                             </div>
                         </div>
                         <div class="col-md-7">
@@ -143,8 +143,8 @@
                         <div class="col-md-6">
                             <div class="service_item wow fadeIn animated">
                                 <i class="fa fa-sitemap" aria-hidden="true"></i>
-                                <a href="/swagger-ui.html"><h4>Swagger REST API</h4></a>
-                                <p>Die Applikation stellt eine <a href="/swagger-ui.html">REST API</a> bereit, über die der meiste Seiteninhalt mit einem internen REST-Client abgerufen werden. Diese Anwendungsarchitektur dient Demonstrationszwecken.</p>
+                                <a href="./swagger-ui.html"><h4>Swagger REST API</h4></a>
+                                <p>Die Applikation stellt eine <a href="./swagger-ui.html">REST API</a> bereit, über die der meiste Seiteninhalt mit einem internen REST-Client abgerufen werden. Diese Anwendungsarchitektur dient Demonstrationszwecken.</p>
                             </div>
                         </div>
                     </div>
