@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -48,6 +49,7 @@ public class Applicant implements IApplicant {
     private String birthplace;
     private String drivinglicense;
     private String title;
+    @Lob
     private String intro;
     private String contactInfo;
 
