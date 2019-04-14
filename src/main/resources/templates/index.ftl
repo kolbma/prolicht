@@ -100,7 +100,7 @@
                             <div class="row person_details">
                                 <h3>Servus, ich bin <span>${model.applicant.firstname!"firstname"} ${model.applicant.lastname!"lastname"}</span></h3>
                                 <h4>${model.applicant.title!"title"}</h4>
-                                <p>${model.applicant.intro!"intro"}</p>
+                                ${model.applicant.intro!"intro"}
                                 <div class="person_information">
                                     <ul>
                                         <li>Adresse</li>
