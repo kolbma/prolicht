@@ -98,7 +98,7 @@
                         </div>
                         <div class="col-md-7">
                             <div class="row person_details">
-                                <h3>Hi, ich bin <span>${model.applicant.firstname!"firstname"} ${model.applicant.lastname!"lastname"}</span></h3>
+                                <h3>Servus, ich bin <span>${model.applicant.firstname!"firstname"} ${model.applicant.lastname!"lastname"}</span></h3>
                                 <h4>${model.applicant.title!"title"}</h4>
                                 <p>${model.applicant.intro!"intro"}</p>
                                 <div class="person_information">
@@ -107,16 +107,20 @@
                                         <li>Telefon</li>
                                         <li>Email</li>
                                         <li>Website</li>
-                                        <li>Geburtsdatum</li>
+                                        <li>Geburtsjahr</li>
                                         <li>Geburtsort</li>
+                                        <li>&nbsp;</li>
+                                        <li>Letzte Aktualisierung</li>
                                     </ul>
                                     <ul>
                                         <li>${model.applicant.street!"street"}, ${model.applicant.postcode!"postcode"} ${model.applicant.city!"city"}</li>
                                         <li><a href="tel:${model.applicant.phone!"phone"}">${model.applicant.phone!"phone"}</a></li>
                                         <li><a href="mailto:${model.applicant.email!"email"}">${model.applicant.email!"email"}</a></li>
                                         <li><a href="https://prolicht.n4v.eu">prolicht.n4v.eu</a></li>
-                                        <li>${model.applicant.birthdate?date!"birthdate"}</li>
+                                        <li>${model.applicant.birthdate?string('yyyy')!"birthdate"}</li>
                                         <li>${model.applicant.birthplace!"birthplace"}</li>
+                                        <li>&nbsp;</li>
+                                        <li>${model.applicant.updatedat?date}</li>
                                     </ul>
                                 </div>
                                 <ul class="social_icon">
@@ -192,7 +196,7 @@
                         <#elseif job.dateresolution == "DAY">
                             <#assign dstring="dd.MM.yyyy">
                         </#if>
-                        <div class="education_item wow fadeInUp animated" data-line="${job.title[0..0]?upper_case}">
+                        <div class="education_item education_item_large wow fadeInUp animated" data-line="${job.title[0..0]?upper_case}">
                             <h6>${job.startdate?string(dstring)}<#if job.startdate?datetime != job.enddate?datetime>-${job.enddate?string(dstring)}</#if></h6>
                             <h4>${job.title!"job.title"}</h4>
                             ${job.description!"<p>job.description</p>"}
@@ -215,7 +219,7 @@
                         <#elseif edu.dateresolution == "DAY">
                             <#assign dstring="dd.MM.yyyy">
                         </#if>
-                        <div class="education_item wow fadeInUp animated" data-line="${edu.title[0..0]?upper_case}">
+                        <div class="education_item education_item_small wow fadeInUp animated" data-line="${edu.title[0..0]?upper_case}">
                             <h6>${edu.startdate?string(dstring)}<#if edu.startdate?datetime != edu.enddate?datetime>-${edu.enddate?string(dstring)}</#if></h6>
                             <h4>${edu.title!"edu.title"}</h4>
                             ${edu.description!"<p>edu.description</p>"}
@@ -245,7 +249,7 @@
                                     rocket
                                     <#break>
                         </#switch></#assign>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="service_item wow fadeIn animated">
                                 <i class="fa fa-${icon?trim}" aria-hidden="true"></i>
                                 <a href="#"><h4>${category!"category"}</h4></a>

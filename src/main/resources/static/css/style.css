@@ -635,6 +635,10 @@ body, p, h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0px;
 }
 
+.myskill_area .skill_item_inner {
+  margin-bottom: 80px;
+}
+
 /* End Skill Area css
 ============================================================================================ */
 /* Education Area css
@@ -667,6 +671,14 @@ body, p, h1, h2, h3, h4, h5, h6 {
   padding: 20px;
   position: relative;
   z-index: 2;
+}
+
+.education_item_large {
+  min-height: 250px;
+}
+
+.education_item_small {
+  min-height: 150px;
 }
 
 .education_area .education_inner_area .education_item:before {
