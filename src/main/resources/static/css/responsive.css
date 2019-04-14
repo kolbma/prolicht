@@ -48,8 +48,13 @@
     .myskill_area .col-md-6:last-child{
         margin-top: 40px;
     }
+    .pad{
+        padding-left: 30px;
+        padding-right: 30px;
+    }
     .education_area .education_inner_area .education_item {
         margin-bottom: 236px;
+        max-width: 305px;
     }
     .education_area .education_inner_area .education_item:nth-child(2) {
         margin-top: 238px;
@@ -68,7 +73,7 @@
     .blog_slider_area, .instagram_area {
         min-height: 420px;
     }
-    .contact_area .contact_from_area{ 
+    .contact_area .contact_from_area{
         margin-top: 40px;
     }
     .footer_copyright .pull-left{
@@ -123,6 +128,10 @@
     .person_details .social_icon {
         margin-bottom: -8px;
     }
+    .pad{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
     .education_area .education_inner_area .education_item::after {
         right: -23px;
         width: 122%;
@@ -130,18 +139,19 @@
     .education_area .education_inner_area .education_item:nth-child(2) {
         margin-top: 275px;
     }
-    .education_area .education_inner_area .education_item {
-        margin-bottom: 280px;
+    .education_area .education_inner_area {
+        max-width: 525px;
     }
     .education_area .education_inner_area .education_item {
-        width: 49%;
-        max-width: none; 
+        margin-bottom: 280px;
+        /* width: 40%; */
+        max-width: 235px;
     }
 }
 @media (max-width: 600px){
     .pad{
-        padding-left: 30px;
-        padding-right: 30px;
+        padding-left: 15px;
+        padding-right: 15px;
     }
     .education_area .education_inner_area .education_item:nth-child(2n+1) {
         float: none;
@@ -164,7 +174,7 @@
     }
     .education_area .education_inner_area {
         overflow: visible;
-        max-width: 250px;
+        max-width: 350px;
         margin: auto;
     }
     .education_area .education_inner_area .education_item {
@@ -175,16 +185,16 @@
         width: 110%;
     }
     .education_area .education_inner_area .education_item:nth-child(2n)::after {
-         left: auto; 
+         left: auto;
     }
     .education_area .education_inner_area .education_item::after {
         display: none;
     }
-    .education_area .education_inner_area .education_item:nth-child(2n)::before {
+    /* .education_area .education_inner_area .education_item:nth-child(2n)::before {
         right: auto;
         left: 50%;
         transform: translateX(-50%);
-    }
+    } */
     .portfolio_area .porfolio_menu .causes_filter li {
         margin-right: 18px;
     }
@@ -205,6 +215,11 @@
     .education_area .education_inner_area .education_item::before {
         right: auto;
         top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .education_area .education_inner_area .education_item:nth-child(2n)::before {
+        right: auto;
         left: 50%;
         transform: translateX(-50%);
     }
