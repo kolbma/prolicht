@@ -21,6 +21,7 @@ public class ApplicantView implements IApplicant {
     private String title;
     private String intro;
     private String contactInfo;
+    private Date updatedat;
 
     public ApplicantView(IApplicant applicant) {
         this.id = applicant.getId();
@@ -37,5 +38,6 @@ public class ApplicantView implements IApplicant {
         this.title = applicant.getTitle();
         this.intro = applicant.getIntro();
         this.contactInfo = applicant.getContactInfo();
+        this.updatedat = applicant.getUpdatedat();
     }
 }

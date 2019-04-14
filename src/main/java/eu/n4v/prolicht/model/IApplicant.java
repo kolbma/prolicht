@@ -31,4 +31,6 @@ public interface IApplicant {
 
     public String getContactInfo();
 
+    public Date getUpdatedat();
+
 }
